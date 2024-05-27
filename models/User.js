@@ -21,8 +21,5 @@ const User = new Schema({
   },
 });
 
-User.methods.testMethod = function() {
-  console.log('using schema methods');
-}
 
 module.exports = mongoose.model("users", User);
