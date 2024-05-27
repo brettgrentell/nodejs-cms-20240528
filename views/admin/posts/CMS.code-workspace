@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../CMS2"
+		},
+		{
+			"path": "../../../../NiceAdmin"
+		}
+	],
+	"settings": {
+		"snippets.viewer.showOnlyActiveEditorLanguageSnippets": true,
+		"CodeGPT.apiKey": "Google AI Studio"
+	}
+}
