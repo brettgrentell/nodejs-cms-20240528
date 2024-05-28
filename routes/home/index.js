@@ -35,7 +35,6 @@ passport.use(
       usernameField: "email",
     },
     (email, password, done) => {
-      console.log(email);
 
       User.findOne({ email: email }).then((user) => {
         if (!user) return done(null, false, { message: "No user found" });
@@ -54,6 +53,16 @@ passport.use(
   )
 );
 
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/admin",
@@ -61,8 +70,13 @@ router.post("/login", (req, res, next) => {
     failureFlash: true,
   })(req, res, next);
 
-  res.send("Login post works!!!");
 });
+
+router.get('/logout', (req, res) => {
+  req.logOut({}, (done) => {
+    res.redirect('/login')
+  });
+})
 
 router.get("/register", (req, res) => {
   res.render("home/register");

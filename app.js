@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const upload = require("express-fileupload");
 var session = require("express-session");
+const passport = require("passport");
 var cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const {mongoDbUrl} = require("./config/database");
@@ -31,6 +32,9 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "public")));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const { select, generateDate } = require("./helpers/handlebars-helpers");
 
@@ -58,11 +62,15 @@ app.use(methodOverride("_method"));
 
 // Local variables using middleware
 app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+
   res.locals.success_message = req.flash("success_message");
 
   res.locals.error_message = req.flash("error_message");
 
   res.locals.form_errors = req.flash("form_errors");
+
+  res.locals.error = req.flash('error');
 
   next();
 });
